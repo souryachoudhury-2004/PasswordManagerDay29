@@ -56,12 +56,16 @@ def save_password():
 
     if go_ahead:
 
-        with open("password_data.json", "r") as data_file:
-            data = json.load(data_file)
-            data.update(new_data)
-
-        with open("password_data.json", "w") as data_file:
-            json.dump(data, data_file, indent=2)
+        try:
+            with open("password_data.json", "r") as data_file:
+                data = json.load(data_file)
+                data.update(new_data)
+        except FileNotFoundError:
+            with open("password_data.json", "w") as data_file:
+                json.dump(new_data, data_file, indent=2)
+        else:
+            with open("password_data.json", "w") as data_file:
+                json.dump(data, data_file, indent=2)
 
         # Confirming that it has been saved
         messagebox.showinfo(title="Success", message="Details saved!")
